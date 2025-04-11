@@ -1,0 +1,65 @@
+.appHeader {
+  background-color: #EBB821;
+  padding: 20px 40px;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  .logoContainer {
+    .logoImage {
+      max-width: 150px;
+    }
+  }
+
+  .logoLink {
+    text-decoration: none;
+  }
+
+  .mainNav {
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+  }
+
+  .navLink {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #33302A;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 20px;
+    padding: 0.5rem 0;
+    transition: color 0.2s ease;
+    position: relative;
+
+    // Anidamos pseudo-clases
+    &:hover,
+    &:focus {
+      color: #BF4430;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #BF4430;
+      transition: width 0.3s ease;
+    }
+
+    &:hover::after,
+    &:focus::after {
+      width: 100%;
+    }
+  }
+}

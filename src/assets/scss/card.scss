@@ -1,0 +1,68 @@
+// src/components/Card/Card.module.scss
+.card {
+    border: 1px solid #e1e1e1;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column; // Imagen arriba, contenido abajo
+    height: 100%; // Para que todas las tarjetas en una fila tengan la misma altura si están en grid
+  
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+  }
+  
+  .cardImage {
+    width: 100%;
+    aspect-ratio: 4 / 3; // Relación de aspecto para la imagen
+    object-fit: cover; // Ajusta la imagen sin distorsión
+    border-top-left-radius: 8px; // Redondea esquinas superiores
+    border-top-right-radius: 8px;
+    background-color: #f0f0f0; // Color de fondo mientras carga la imagen
+  }
+  
+  .cardContent {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; // Permite que el contenido crezca para llenar el espacio
+  }
+  
+  .cardTitle {
+    margin: 0 0 0.3rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    // Limita el título a 2 líneas (opcional)
+    // display: -webkit-box;
+    // -webkit-line-clamp: 2;
+    // -webkit-box-orient: vertical;
+    // overflow: hidden;
+  }
+  
+  .cardAuthor {
+    margin: 0 0 0.75rem 0;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .cardDescription {
+     font-size: 0.85rem;
+     color: #555;
+     line-height: 1.4;
+     margin-bottom: 1rem;
+     flex-grow: 1; // Empuja el enlace (si existe) hacia abajo
+  }
+  
+  .cardLink {
+    // Estilos para un posible enlace "Ver más"
+    // margin-top: auto; // Empuja el enlace hacia abajo
+    // text-align: right;
+    // color: #007bff;
+    // text-decoration: none;
+    // font-weight: 500;
+    // &:hover { ... }
+  }
