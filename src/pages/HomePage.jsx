@@ -10,16 +10,42 @@ const DUMMY_BOOKS = [
 ];
 function HomePage() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [allBooks, setAllBooks] = useState([]);
-  const [filteredBooks, setFilteredBooks] = useState([]);
+  const [allBooks, setAllBooks] = useState([]); // Inicia vacío
+  const [filteredBooks, setFilteredBooks] = useState([]); // Inicia vacío
+  const [loading, setLoading] = useState(true); // Para mostrar mensaje de carga
+  const [error, setError] = useState(null);     // Para mostrar errores
   useEffect(() => {
-    // En una app real, aquí harías fetch a tu API:
-    // fetch('/api/books').then(res => res.json()).then(data => {
-    //   setAllBooks(data);
-    //   setFilteredBooks(data);
-    // });
-    setAllBooks(DUMMY_BOOKS);
-    setFilteredBooks(DUMMY_BOOKS); // Muestra todos al inicio
+    const fetchBooksFromApi = async () => {
+      setLoading(true); // Indicar que estamos cargando
+      setError(null);   // Limpiar errores previos
+
+      try {
+        const response = await fetch(`https://localhost:7266/api/books`); // Cambia la URL según tu API
+        if (!response.ok) {
+          throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
+        }
+
+        // Convertir la respuesta a JSON
+        const data = await response.json();
+
+        // *** Debugging: Muestra los datos recibidos en la consola ***
+        console.log('Datos recibidos de la API:', data);
+        setAllBooks(data);
+        setFilteredBooks(data); // Mostrar todos los libros inicialmente
+
+      } catch (err) {
+        console.error("Error al obtener los libros:", err);
+        setError(`No se pudieron cargar los libros. Verifica la conexión y la consola. (${err.message})`);
+        setAllBooks([]); // Dejar vacío en caso de error
+        setFilteredBooks([]);
+      } finally {
+        setLoading(false); // Dejar de mostrar el mensaje de carga
+      }
+    };
+
+    // Llamar a la función para que se ejecute
+    fetchBooksFromApi();
+
   }, []);
 
   // 4. Efecto para filtrar cuando cambia searchTerm o allBooks
@@ -41,6 +67,15 @@ function HomePage() {
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
   };
+
+  if (loading) {
+    return <div className='home-page'><p>Cargando libros...</p></div>;
+  }
+
+  if (error) {
+    // Muestra el error de forma clara
+    return <div className='home-page'><p style={{ color: 'red', fontWeight: 'bold' }}>Error: {error}</p></div>;
+  }
   return (
     <div className='home-page'>
       <div className="home-search">
@@ -53,7 +88,7 @@ function HomePage() {
         <div className="home-input">
           <input
             type="text"
-            placeholder='Buscar libro por título o autor...' 
+            placeholder='Buscar libro por título o autor...'
             className='input'
             value={searchTerm}
             onChange={handleInputChange} // Llama al manejador al cambiar
@@ -61,7 +96,7 @@ function HomePage() {
           <i class='bx bx-search-alt'></i>
         </div>
       </div>
-      <section className="results-container" aria-live="polite"> 
+      <section className="results-container" aria-live="polite">
         {/* Puedes mostrar un título condicional */}
         {searchTerm && (
           <h2 className="results-title">
